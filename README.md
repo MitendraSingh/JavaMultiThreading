@@ -1,7 +1,7 @@
 # MultiThreading
- Multithreading
- -Scheduler
- -Monitors
+ Multithreading </br>
+ -Scheduler </br>
+ -Monitors </br>
  
  Runnable interface is a functional Interface(Interface that consists only one abstract method). </br>
  Thread is class. </br>
