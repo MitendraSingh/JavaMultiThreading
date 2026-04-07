@@ -1,6 +1,158 @@
 # MultiThreading
+ Multithreading
+ -Scheduler
+ -Monitors
+ 
+ Runnable interface is a functional Interface(Interface that consists only one abstract method). </br>
+ Thread is class. </br>
 
-In Java multithreading, a Future represents the result of an asynchronous computation. 
+**Implementation 1:** 
+```
+ class MultiThreadingDemo extends Thread {
+	 void run(){
+		 System.out.println("running thread");
+	 }
+	 public static void main(){
+		 MultiThreadingDemo object = new MultiThreadingDemo();
+		 object.start();
+		 
+	 }
+ }
+```
+**Implementation 2: ** 
+```
+ class MultiThreadingDemo implements Runnable {
+	 void run(){
+		 System.out.println("running thread");
+	 }
+	 public static void main(){
+		 MultiThreadingDemo object = new MultiThreadingDemo();
+		 Thread objectThread= new Thread(object);
+		 objectThread.start();
+		 
+	 }
+ }
+```
+ 
+ Question 1- if we remove run method from Implementation 1 then what will happen ? </br>
+ Answer:- Nothing will happen. Blank thread started. It will never gives error because Thread class  </br>
+		implements the run method in it's self.  </br>
+		
+Question 2- if we remove run method from Implementation 2 then what will happen ?  </br>
+Answer:- it will gives the error because Runnable is the functional interface have run as abstract method  </br>
+		in it.  </br>
+Question 3 :- Why Implementation 1 does not create the object of Thread class but Implementation 2 needs  </br>
+				to create the object of  thread class?  </br>
+Answer :- Reason for this in Implementation 1   thread is created by extending thread class. Thread class internaly   </br>
+		initialize through constructor chaining.  </br>
+		
+Question 4: How to create thread using lamda expression?  </br>
+```
+class MultiThreading {
+	public static void main(String args[]){
+		Runnable runObject = ()-> { System.out.println("runObject is running ");};
+		Thread threaadObject= new Thread(runObject);
+		threaadObject.start();
+		
+	}
+}
+```
+
+**noted:- lambda expression is only used with functional interface.**
+
+Question 5: what happen when 2 times start method called ?  </br>
+Answer:- IllegalThreadStateException - if the thread was already started.  </br>
+
+Question 6: difference between sleep and wait ?  </br>
+```
+-sleep is the method of Thread class   | -wait is the method of object class.
+-sleep method is static.				| -wait methods is non static.
+-This Method is used to pause the 		| -This method is defined in object class. 
+ execution of current thread for a		|	  It tells the calling thread (a.k.a Current Thread) 
+ specified time in Milliseconds. 		|	  to wait until another thread invoke’s the notify()
+ Here, Thread does not lose its 		|	  or notifyAll() method for this object,
+ ownership of the monitor and resume’s	|	  The thread waits until it reobtains the ownership of 
+ it’s execution							|	  the monitor and Resume’s Execution.									  
+```									   
+									  
+Question 6: write a program to one thread will print even other thread will print odd.  </br>
+```
+Answer: this can be done with wait(), notify() and semeaphore 									  
+			for wait and notify
+        1. declare static variable for counting.
+		2. declare static object for same class.
+		3. create threadEven for printing even no.
+		4 create another threadOdd for printing odd no.
+		5. for 3rd line override run method.
+		   - create synchronized block with object level lock i.e created at line 2
+		   - apply while loop having condition (count <10)
+		   - check the condition (count %2 !=0) if true then call object.wait()
+		   - print value of count and then increase the value of count++
+		   - call object.notify();
+		5. for 4rd line override run method.
+		   - create synchronized block with object level lock i.e created at line 2
+		   - apply while loop having condition (count <10)
+		   - check the condition (count %2 ==0) if true then call object.wait()
+		   - print value of count and then increase the value of count++
+		   - call object.notify();
+		   
+		   
+		   public class DemoThread {
+				volatile static int count = 1;
+				static DemoThread demothread=new DemoThread();
+				public static void main(String args[]){
+
+					Thread thread = new Thread(new Runnable() {
+						@Override
+						public void run() {
+							synchronized (demothread) {
+								while (count < 10) {
+									if (count % 2 != 0) {
+										try {
+											demothread.wait();
+										} catch (InterruptedException e) {
+											System.out.println(e);
+										}
+									}
+									System.out.println("Printing Even : " + count);
+									count++;
+									demothread.notify();
+
+								}
+							}
+					}
+					});
+
+					Thread thread1 = new Thread(new Runnable() {
+						@Override
+						public void run() {
+							synchronized (demothread) {
+								while (count < 10) {
+									if (count % 2 == 0) {
+										try {
+											demothread.wait();
+										} catch (InterruptedException e) {
+											System.out.println(e);
+										}
+									}
+									System.out.println("Printing odd : " + count);
+									count++;
+									demothread.notify();
+
+								}
+							}
+						}
+					});
+					thread.start();
+					thread1.start();
+				}
+			}
+	```								  
+Question: join() method.  </br>
+
+Question: countdown latch  </br>
+
+In Java multithreading, a Future represents the result of an asynchronous computation. </br>
 	It acts as a placeholder (or promise) for a value that will be available sometime in the  
 	future once a task has completed execution. 
 	
