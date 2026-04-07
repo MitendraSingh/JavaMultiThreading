@@ -1,18 +1,18 @@
 # MultiThreading
 
-In Java multithreading, a Future represents the result of an asynchronous computation. </br>
-	It acts as a placeholder (or promise) for a value that will be available sometime in the  </br>
-	future once a task has completed execution. </br>
+In Java multithreading, a Future represents the result of an asynchronous computation. 
+	It acts as a placeholder (or promise) for a value that will be available sometime in the  
+	future once a task has completed execution. 
 	
 	Key Points about Future:
 
-	Defined in java.util.concurrent package. </br>
+	Defined in java.util.concurrent package. 
 
-	Represents the result of a computation that may not be complete yet. </br>
+	Represents the result of a computation that may not be complete yet. 
 
-	Used with ExecutorService to submit tasks that return results. </br>
+	Used with ExecutorService to submit tasks that return results. 
 
-	Provides methods to check whether the task is completed, canceled, or still running. </br>
+	Provides methods to check whether the task is completed, canceled, or still running. 
 	
 	
 	| Method                                  | Description                                                                      |
